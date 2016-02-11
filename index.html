@@ -22,17 +22,30 @@
     function addMinutes(oldDate, min) {
         return new Date(oldDate.getTime() + min*60000); // 60x1000ms
     } 
-    // need to get diff between current_time and end_time
+    // need to get diff between current_time and endTime
+    function getTimeDiff();
 
-    var start_date = new Date();
-    var start_min = start_date.getMinutes();
-    console.log('start date is' + start_date.getTime());
+    var startTime = new Date();
+    var start_min = startTime.getMinutes();
+    console.log('start date is' + startTime.getTime());
 
-    // end_time should be 25 minutes from now
-    var end_time = addMinutes(start_date, 25);
-    console.log('end date is' + end_time.getTime());
+    // endTime should be 25 minutes from now
+    var endTime = addMinutes(startTime, 25);
+    console.log('end date is' + endTime.getTime());
 
-    // figure out time remaining between end_date and start_date
+    // figure out time remaining between end_date and startTime
+    var timeDiff = endTime.getTime() - startTime.getTime();
+
+    // convert millseconds into actual usable chunks
+    var minutes = Math.ceil((timeDiff/1000/60)%60);
+    var seconds = Math.ceil((timeDiff/1000)%60);
+    var millisecs = timeDiff;
+
+    console.log('total '+ timeDiff + '\tminutes ' + minutes + '\tseconds ' + seconds);
+
+    function setClock(id, endTime){
+
+    }
 </script>
 </body>
 </html>
