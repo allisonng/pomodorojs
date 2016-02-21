@@ -10,8 +10,13 @@
 <body>
 
 <p id="timer">
-    Time Remaining<br>&nbsp;
-    <span id="timerMinutes"></span>:<span id="timerSeconds"></span>
+    Time Remaining<br>
+    <span id="timerDefault">
+        &nbsp;25:00
+    </span>
+    <span id="timerStarted">
+        &nbsp;<span id="timerMinutes"></span>:<span id="timerSeconds"></span>
+    </span>
 </p>
 
 <p>add button here</p>
@@ -21,12 +26,10 @@
 <button type="button" class="button" id="timerStart">Start</button>
 <button type="button" class="button" id="timerPause">Pause</button>
 
-<script src="pomodoro.js"></script>
+<script src="js/pomodoro.js"></script>
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/what-input/what-input.js"></script>
 <script src="bower_components/foundation-sites/dist/foundation.js"></script>
-<script>
-    $(document).foundation();
-</script>
+<script src="js/app.js"></script>
 </body>
 </html>

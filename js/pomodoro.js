@@ -3,6 +3,8 @@ function addMinutes(oldDate, min) {
     return new Date(oldDate.getTime() + min*60000); // 60x1000ms
 }
 
+
+
 function getTimeRemaining(endTime){
     // figure out time remaining between end_date and startTime
     var timeDiff = endTime.getTime() - Date.parse(new Date());
@@ -40,9 +42,18 @@ function initializeClock(id, endTime){
 
 }
 
-var startTime = new Date();
 
+document.getElementById("timerStart").onclick = startTimer;
+
+function startTimer(){
+    console.log('started timer');
+    document.getElementById('timerStarted').style.display = 'block';
+    document.getElementById('timerDefault').style.display = 'none';
+
+    var startTime = new Date();
 // endTime should be 25 minutes from now
-var endTime = addMinutes(startTime, 25);
+    var endTime = addMinutes(startTime, 25);
 
-initializeClock('timer', endTime);
+    initializeClock('timer', endTime);
+
+}
