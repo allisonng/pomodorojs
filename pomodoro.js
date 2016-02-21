@@ -1,5 +1,4 @@
 
-
 function addMinutes(oldDate, min) {
     return new Date(oldDate.getTime() + min*60000); // 60x1000ms
 }

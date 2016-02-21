@@ -2,22 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Le Pomodoro Project</title>
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="css/app.css" />
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
 <p id="timer">
+    Time Remaining<br>&nbsp;
     <span id="timerMinutes"></span>:<span id="timerSeconds"></span>
-
 </p>
 
 <p>add button here</p>
 
 <p>option buttons here</p>
 
-<script src="pomodoro.js"></script>
+<button type="button" class="button" id="timerStart">Start</button>
+<button type="button" class="button" id="timerPause">Pause</button>
 
+<script src="pomodoro.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/what-input/what-input.js"></script>
+<script src="bower_components/foundation-sites/dist/foundation.js"></script>
+<script>
+    $(document).foundation();
+</script>
 </body>
 </html>
