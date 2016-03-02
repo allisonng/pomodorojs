@@ -4,10 +4,9 @@ function addMinutes(oldDate, min) {
 }
 
 
-
 function getTimeRemaining(endTime){
     // figure out time remaining between end_date and startTime
-    var timeDiff = endTime.getTime() - Date.parse(new Date());
+    var timeDiff = endTime - Date.parse(new Date());
 
     // convert millseconds into actual usable chunks
     var minutes = Math.floor((timeDiff/1000/60)%60);
@@ -20,6 +19,7 @@ function getTimeRemaining(endTime){
     };
 }
 
+var timeInterval, currTime;
 
 function initializeClock(id, endTime){
     var timer = document.getElementById(id);
@@ -27,6 +27,7 @@ function initializeClock(id, endTime){
     var secondsSpan = timer.querySelector("#" + id.toString() + "Seconds");
 
     function updateTimer() {
+    	currTime = endTime;
         var timeLeft = getTimeRemaining(endTime);
         //slice(2) makes sure there's at least a 0 in front of a single digit)
         minutesSpan.innerHTML = ('0' + timeLeft.minutes).slice(-2);
@@ -38,12 +39,14 @@ function initializeClock(id, endTime){
     }
 
     updateTimer();
-    var timeInterval = setInterval(updateTimer, 1000);
+    timeInterval = setInterval(updateTimer, 1000);
 
 }
 
 
 document.getElementById("timerStart").onclick = startTimer;
+document.getElementById("timerPause").onclick = pauseTimer;
+document.getElementById("timerResume").onclick = resumeTimer;
 
 function startTimer(){
     console.log('started timer');
@@ -55,5 +58,18 @@ function startTimer(){
     var endTime = addMinutes(startTime, 25);
 
     initializeClock('timer', endTime);
+	
+}
 
+function pauseTimer(){
+	// need to get current date object in order to resume?
+	// clear interval, and then 'initialize clock' with the date
+	clearInterval(timeInterval);
+	console.log("cleared");
+}
+
+function resumeTimer(){
+	initializeClock('timer', currTime);
+	console.log("reinit with timeLeft" + currTime);
+	
 }
