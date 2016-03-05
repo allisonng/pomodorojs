@@ -47,13 +47,18 @@ function initializeClock(id, endTime){
 }
 
 function Timer(callback, interval) {
-    var timerId, startTime, endTime, remaining = interval;
+    var timerId, startTime, endTime, remaining = interval, remainingDate;
     var state = 0; // 0 = idle, 1 = running, 2 = paused, 3 = resumed
 
     this.pause = function() {
         if (state != 1) return;
+		// get the current time? start time (3:00... paused at 2:55 (new date)
+		var currTime = new Date();
+        // remaining = addMinutes(new Date(), 25) - (currTime - startTime);
+        remaining -= (currTime - startTime);
+		remainingMS = currTime - startTime;
 
-        remaining -= new Date() - startTime;
+        // remainingDate = addMinutes(currTime, 25) - (currTime - startTime);
         window.clearInterval(timerId);
         state = 2;
         console.log('paused');
@@ -63,9 +68,10 @@ function Timer(callback, interval) {
         if (state != 2) return;
 
         state = 3;
-        //timerId = window.setTimeout(this.timeoutCallback, remaining)
-        timerId = initializeClock(timerDiv, remaining);
-        console.log("Resuming");
+		// setTimeout(this.timeoutCallback, remaining);
+		this.timeoutCallback();
+        timerId = window.setTimeout(this.timeoutCallback, remaining);
+        // timerId = initializeClock(timerDiv, remaining);
     };
 
     this.timeoutCallback = function() {
@@ -73,9 +79,13 @@ function Timer(callback, interval) {
 
         //callback();
 
-        startTime = new Date();
-        timerId = initializeClock(timerDiv, remaining);
+        // startTime = new Date();
+        // need the time when it ended
+        console.log("Remaining time is " + remainingMS + " " + new Date(remainingMS).getMinutes());
+        remainingDate = addMinutes(new Date(), 25) - remainingMS;
+        timerId = initializeClock(timerDiv, remainingDate);
         state = 1;
+        console.log("Resuming");
         console.log('running Timer2');
     };
 
@@ -109,7 +119,7 @@ function startTimer(){
     //var endTime = addMinutes(startTime, 25);
 
     timer = new Timer(initializeClock, 1000);
-	
+
 }
 
 function pauseTimer(){
