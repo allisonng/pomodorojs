@@ -60,6 +60,7 @@ function Timer(callback, interval) {
 
         // remainingDate = addMinutes(currTime, 25) - (currTime - startTime);
         window.clearInterval(timerId);
+        console.log("pause() timerId " + timerId);
         state = 2;
         console.log('paused');
     };
@@ -70,29 +71,32 @@ function Timer(callback, interval) {
         state = 3;
 		// setTimeout(this.timeoutCallback, remaining);
 		this.timeoutCallback();
-        timerId = window.setTimeout(this.timeoutCallback, remaining);
+        // this plays out the remainder of time interval (in this case, 1000ms)
+        console.log("resume() timerId " + timerId);
+        window.setTimeout(this.timeoutCallback, remaining);
         // timerId = initializeClock(timerDiv, remaining);
     };
 
     this.timeoutCallback = function() {
         if(state != 3) return;
+        remainingDate = addMinutes(new Date(), 25) - remainingMS;
 
         //callback();
 
         // startTime = new Date();
         // need the time when it ended
-        console.log("Remaining time is " + remainingMS + " " + new Date(remainingMS).getMinutes());
-        remainingDate = addMinutes(new Date(), 25) - remainingMS;
-        timerId = initializeClock(timerDiv, remainingDate);
         state = 1;
-        console.log("Resuming");
-        console.log('running Timer2');
+        timerId = initializeClock(timerDiv, remainingDate);
+        console.log("TC timerId " + timerId);
+        console.log('resuming timeoutCallback()');
+
     };
 
     startTime = new Date();
     endTime = addMinutes(startTime, 25);
-    timerId = initializeClock(timerDiv, endTime);
     state = 1;
+    timerId = initializeClock(timerDiv, endTime);
+    console.log("mainbody timerId " + timerId);
     console.log('running Timer1');
 }
 
@@ -105,7 +109,7 @@ timer.resume()
 
 
 document.getElementById("timerStart").onclick = startTimer;
-document.getElementById("timerPause").onclick = pauseTimer
+document.getElementById("timerPause").onclick = pauseTimer;
 document.getElementById("timerResume").onclick = resumeTimer;
 
 var timer;
