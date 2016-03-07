@@ -25,6 +25,7 @@ var timeInterval;
 
 // parses date object into mins/secs for display
 function initializeClock(id, endTime){
+    console.log("initializing");
     var timer = document.getElementById(id);
     var minutesSpan = timer.querySelector("#" + id.toString() + "Minutes");
     var secondsSpan = timer.querySelector("#" + id.toString() + "Seconds");
@@ -47,57 +48,41 @@ function initializeClock(id, endTime){
 }
 
 function Timer(callback, interval) {
-    var timerId, startTime, endTime, remaining = interval, remainingDate;
+    var timerId, timeoutId, startTime, endTime, remaining, remainingMS, remainingDate;
     var state = 0; // 0 = idle, 1 = running, 2 = paused, 3 = resumed
 
     this.pause = function() {
         if (state != 1) return;
-		// get the current time? start time (3:00... paused at 2:55 (new date)
-		var currTime = new Date();
-        // remaining = addMinutes(new Date(), 25) - (currTime - startTime);
-        remaining -= (currTime - startTime);
-		remainingMS = currTime - startTime;
 
-        // remainingDate = addMinutes(currTime, 25) - (currTime - startTime);
-        window.clearInterval(timerId);
-        console.log("pause() timerId " + timerId);
+		var currTime = new Date();
+		remainingMS = currTime - startTime;
+        remaining =  interval - remainingMS;
+        startTime = new Date();
         state = 2;
-        console.log('paused');
+        window.clearInterval(timerId);
     };
 
     this.resume = function() {
         if (state != 2) return;
 
         state = 3;
-		// setTimeout(this.timeoutCallback, remaining);
-		this.timeoutCallback();
-        // this plays out the remainder of time interval (in this case, 1000ms)
-        console.log("resume() timerId " + timerId);
-        window.setTimeout(this.timeoutCallback, remaining);
-        // timerId = initializeClock(timerDiv, remaining);
+        this.timeoutCallback();
     };
 
     this.timeoutCallback = function() {
         if(state != 3) return;
-        remainingDate = addMinutes(new Date(), 25) - remainingMS;
 
-        //callback();
-
-        // startTime = new Date();
-        // need the time when it ended
+        //console.log("callback timeoutId BEFORE" + timeoutId);
+        remainingDate = new Date(addMinutes(startTime, 25) - remainingMS);
+        timerId = callback(timerDiv, remainingDate);
+        startTime = new Date();
         state = 1;
-        timerId = initializeClock(timerDiv, remainingDate);
-        console.log("TC timerId " + timerId);
-        console.log('resuming timeoutCallback()');
-
     };
 
     startTime = new Date();
     endTime = addMinutes(startTime, 25);
+    timerId = callback(timerDiv, endTime);
     state = 1;
-    timerId = initializeClock(timerDiv, endTime);
-    console.log("mainbody timerId " + timerId);
-    console.log('running Timer1');
 }
 
 // to use
