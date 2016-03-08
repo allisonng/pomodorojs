@@ -88,6 +88,8 @@ function Timer(callback, timeInterval) {
     state = 1;
 }
 
+var startButton, pauseButton, resumeButton;
+
 document.getElementById("timerStart").onclick = startTimer;
 document.getElementById("timerPause").onclick = pauseTimer;
 document.getElementById("timerResume").onclick = resumeTimer;
@@ -102,13 +104,15 @@ function startTimer(){
 
 }
 
-function pauseTimer() {
+function pauseTimer(){
+    // remove start button
     if(timer){
+        document.getElementsById('timerStarted').style.display = 'none';
         timer.pause();
     }
 }
 
-function resumeTimer() {
+function resumeTimer(){
     if(timer){
         timer.resume();
     }
