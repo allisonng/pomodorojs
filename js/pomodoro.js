@@ -7,7 +7,7 @@ function addMinutes(oldDate, min) {
 
 
 function getTimeRemaining(endTime){
-    // figure out time remaining between end_date and startTime
+    // figure out time remaining between end_date and right now
     var timeDiff = endTime - Date.parse(new Date());
 
     // convert millseconds into actual usable chunks
@@ -48,7 +48,7 @@ function initializeClock(id, endTime){
 }
 
 function Timer(callback, interval) {
-    var timerId, timeoutId, startTime, endTime, remaining, remainingMS, remainingDate;
+    var timerId, totalElapsedTime = 0, startTime, endTime, remaining, remainingMS, remainingDate;
     var state = 0; // 0 = idle, 1 = running, 2 = paused, 3 = resumed
 
     this.pause = function() {
@@ -56,8 +56,10 @@ function Timer(callback, interval) {
 
 		var currTime = new Date();
 		remainingMS = currTime - startTime;
-        remaining =  interval - remainingMS;
-        startTime = new Date();
+        console.log("pause() \ncurrtime " + currTime + "\nstartTime " + startTime +
+        "\nRemainingMS " + remainingMS + "\nElapsedTime " + totalElapsedTime);
+        totalElapsedTime += remainingMS;
+        //remaining =  interval - remainingMS;
         state = 2;
         window.clearInterval(timerId);
     };
@@ -73,9 +75,11 @@ function Timer(callback, interval) {
         if(state != 3) return;
 
         //console.log("callback timeoutId BEFORE" + timeoutId);
-        remainingDate = new Date(addMinutes(startTime, 25) - remainingMS);
+        //remainingDate = new Date(addMinutes(startTime, 25) - remainingMS);
+        remainingDate = new Date(addMinutes(new Date(), 25) - totalElapsedTime);
         timerId = callback(timerDiv, remainingDate);
         startTime = new Date();
+        console.log("startTime " + startTime + "\nElapsedTime " + totalElapsedTime);
         state = 1;
     };
 
@@ -100,12 +104,9 @@ document.getElementById("timerResume").onclick = resumeTimer;
 var timer;
 
 function startTimer(){
-    console.log('started timer');
     document.getElementById('timerStarted').style.display = 'block';
     document.getElementById('timerDefault').style.display = 'none';
 
-    //var startTime = new Date();
-    //var endTime = addMinutes(startTime, 25);
 
     timer = new Timer(initializeClock, 1000);
 
