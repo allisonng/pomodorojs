@@ -1,6 +1,6 @@
 var timerDiv = 'timer',
     timeInterval = 1000,
-    fullTimerPeriod = 0.0833;
+    fullTimerPeriod = 25;
 
 function addMinutes(oldDate, min) {
     return new Date(oldDate.getTime() + min*60000); // 60x1000ms
