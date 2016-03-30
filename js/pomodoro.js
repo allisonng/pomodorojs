@@ -3,7 +3,8 @@ var timerDiv = 'timer',
     fullTimerPeriod = 25;
 
 function addMinutes(oldDate, min) {
-    return new Date(oldDate.getTime() + min*60000); // 60x1000ms
+    // 60x1000ms
+    return new Date(oldDate.getTime() + min*60000);
 }
 
 function getTimeRemaining(endTime){
@@ -88,17 +89,22 @@ function Timer(callback, timeInterval) {
     state = 1;
 }
 
-var startButton, pauseButton, resumeButton;
+var resumeButton = document.getElementById('timerResume');
+var startButton = document.getElementById('timerStart');
+var pauseButton= document.getElementById('timerPause');
 
-document.getElementById("timerStart").onclick = startTimer;
-document.getElementById("timerPause").onclick = pauseTimer;
-document.getElementById("timerResume").onclick = resumeTimer;
+var timerStartedDiv = document.getElementById('timerStarted');
+var timerDefaultDiv = document.getElementById('timerDefault');
+
+startButton.onclick = startTimer;
+resumeButton.onclick = resumeTimer;
+pauseButton.onclick = pauseTimer;
 
 var timer;
 
 function startTimer(){
-    document.getElementById('timerStarted').style.display = 'block';
-    document.getElementById('timerDefault').style.display = 'none';
+    timerStartedDiv.style.display = 'block';
+    timerDefaultDiv.style.display = 'none';
 
     timer = new Timer(initializeClock, timeInterval);
 
@@ -107,7 +113,7 @@ function startTimer(){
 function pauseTimer(){
     // remove start button
     if(timer){
-        document.getElementsById('timerStarted').style.display = 'none';
+        startButton.style.display = 'none';
         timer.pause();
     }
 }
